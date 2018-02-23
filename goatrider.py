@@ -41,9 +41,10 @@ def pull_alexa(hostlist):
     hostfile = hostlist.split("\n")
     for hosts in hostfile:
         hosts = hosts.rstrip()
-        if not hosts in domains:
+        if hosts in domains:
+        # if not hosts in domains:
             if hosts != "":
-                print(("ALEXA_NOT_FOUND_HIT_HOST: %s" % (hosts)))
+                print(("ALEXA_HIT_HOST: %s" % (hosts)))
 
 # pulls the binary defense banlist
 def pull_binarybanlist(hostlist):
@@ -149,19 +150,24 @@ try:
                 ips = ips + ip + "\n"
             iplist = ips
 
-        print("[*] Checking Alexa, Artillery, TOR, and OTX...")
+#        print("[**] Checking Alexa, Artillery, TOR, and OTX...")
 
         # check ips to banlist
+        print("[**] 1 of 4 - Checking Binary Defense IP Ban list")
         pull_binarybanlist(iplist)
 
         # check tor to banlist
+        print("[***] 2 of 4 - Checking Binary Defense TOR Ban list")
         pull_binarytorlist(iplist)
 
         # check OTX
+        print("[****] 3 of 4 - Checking OTX")
         pull_otx(iplist)
 
         # check alexa hostnames
+        print("[*****] 4 of 4 - Checking Alexa")
         pull_alexa(hostlist)
+        print("\n[*] Seach Complete")
 
     # if the file isnt there
     else:
